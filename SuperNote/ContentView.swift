@@ -41,13 +41,14 @@ struct ContentView: View {
             Button(role: .none) {
                 selectedFood = food.shuffled().filter { $0 != selectedFood }.first //shuffled() 利用原始数组返回一个新的数组，其中包含原始数组中的元素，但顺序是随机的； $0 ! 表示过滤掉跟当前一样的元素，随机抽取下一个非当前元素的元素
             } label: {
-                Text("手气不错")
-                    .padding(/*@START_MENU_TOKEN@*/.all, 8.0/*@END_MENU_TOKEN@*/)
+                Text(selectedFood == .none ? "告诉我" : "手气不错")
                     .foregroundColor(.white)
-                    .frame(width: 200, height: 50, alignment: .center) // 改变按钮宽度
+                    .frame(width: 180, height: 38, alignment: .center) // 改变按钮宽度
             }
-                .background(customColor)
+                .buttonStyle(.borderedProminent)
                 .cornerRadius(12)
+                .padding(.bottom, +4)
+            //                .background(customColor)
              
 			
             Button(role: .none) {
@@ -58,12 +59,15 @@ struct ContentView: View {
                     .foregroundColor(.white)
                     .frame(width: 200, height: 50, alignment: .center) // 改变按钮宽度
             }
-            .background(.black)
+                .background(.black)
                 .cornerRadius(12)
+
             
         }
-        .padding().opacity(0.8)
-        .animation(.easeInOut(duration: 0.3), value: selectedFood) //⚡️这个动画要放在 VStack 身上，是因为要在 VStack 开始出现时就开始观察动画，动画的时间跟变化速率 、变化的对象（比如食物文字发生变化，就执行动画）
+            .padding().opacity(0.8)
+            .animation(.easeInOut(duration: 0.3), value: selectedFood) //⚡️这个动画要放在 VStack 身上，是因为要在 VStack 开始出现时就开始观察动画，动画的时间跟变化速率 、变化的对象（比如食物文字发生变化，就执行动画）
+            .frame(maxWidth: .infinity, maxHeight: .infinity)//背景无线延伸
+            .background(Color(.secondarySystemBackground))
     }
     
 }
