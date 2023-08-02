@@ -12,6 +12,12 @@ struct ContentView: View {
     // 👇渲染 UI
     var body: some View {
         VStack(spacing: 10) {//垂直排列(类似 flex)
+            Text("今天吃什么？")
+                .font(.largeTitle)
+                .bold()
+                .padding(.all, 6.0)
+            
+            
             Image("hambuger")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
@@ -21,39 +27,43 @@ struct ContentView: View {
 //                .imageScale(.large)
 //                .foregroundColor(.accentColor)//换成强调色（蓝色）
             
+            
             if(selectedFood != .none) {
-                Text(selectedFood ?? "")//selectedFood 为食物名
-                    .font(.system(size: 16))
+                Text(selectedFood ?? "")//文字展示为 => selectedFood 食物名
+                    .font(.system(size: 24))
+                    .padding(.vertical, 10)
+                    .bold()
+					.foregroundColor(customColor)
             }
             
-        
-            Text("今天吃什么？")
-                .font(.largeTitle)
-                .bold()
-                .padding(/*@START_MENU_TOKEN@*/.all, 6.0/*@END_MENU_TOKEN@*/)
             
-            Button("手气不错") {
-                selectedFood =
-                food.shuffled().filter { $0 != selectedFood }.first //shuffled() 利用原始数组返回一个新的数组，其中包含原始数组中的元素，但顺序是随机的； $0 ! 表示过滤掉跟当前一样的元素，随机抽取下一个非当前元素的元素
+            // 👇用带 label 的 Button 可以调整按钮的样式
+            Button(role: .none) {
+                selectedFood = food.shuffled().filter { $0 != selectedFood }.first //shuffled() 利用原始数组返回一个新的数组，其中包含原始数组中的元素，但顺序是随机的； $0 ! 表示过滤掉跟当前一样的元素，随机抽取下一个非当前元素的元素
+            } label: {
+                Text("手气不错")
+                    .padding(/*@START_MENU_TOKEN@*/.all, 8.0/*@END_MENU_TOKEN@*/)
+                    .foregroundColor(.white)
+                    .frame(width: 200, height: 50, alignment: .center) // 改变按钮宽度
             }
-                .padding(/*@START_MENU_TOKEN@*/.all, 8.0/*@END_MENU_TOKEN@*/)
                 .background(customColor)
-                .cornerRadius(6)
-                .foregroundColor(.white)
-				// 改变按钮宽度
-				.frame(width: 200.0, height: 50.0)
+                .cornerRadius(12)
+             
 			
-			Button("重置") {
-				selectedFood = .none
-			}
-				.padding(.all, 8.0)
-                .background(.gray)
-				.cornerRadius(6)
-				.foregroundColor(.white)
-            
+            Button(role: .none) {
+                selectedFood = .none
+            } label: {
+                Text("重置")
+                    .padding(/*@START_MENU_TOKEN@*/.all, 8.0/*@END_MENU_TOKEN@*/)
+                    .foregroundColor(.white)
+                    .frame(width: 200, height: 50, alignment: .center) // 改变按钮宽度
+            }
+            .background(.black)
+                .cornerRadius(12)
             
         }
         .padding().opacity(0.8)
+        .animation(.easeInOut(duration: 0.3), value: selectedFood) //⚡️这个动画要放在 VStack 身上，是因为要在 VStack 开始出现时就开始观察动画，动画的时间跟变化速率 、变化的对象（比如食物文字发生变化，就执行动画）
     }
     
 }
