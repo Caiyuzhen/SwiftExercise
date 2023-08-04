@@ -3,9 +3,13 @@ import SwiftUI
 
 
 struct ContentView: View {
-    let food = ["汉堡", "沙拉", "披萨", "义大利麵", "鸡腿便当", "刀削麵", "火锅", "牛肉麵", "关东煮"]
+//    let food = ["汉堡", "沙拉", "披萨", "义大利麵", "鸡腿便当", "刀削麵", "火锅", "牛肉麵", "关东煮"]
+//    @State private var selectedFood: String? //存放选好的 food, 用 @State 来声明, 可以在数据变动时更新 UI，类似 useState~
     
-    @State private var selectedFood: String? //存放选好的 food, 用 @State 来声明, 可以在数据变动时更新 UI，类似 useState~
+    let food = Foods.examples
+    @State private var selectedFood: Foods? //存放食物数据
+
+    
 
     let customColor = Color(red: 0.28, green: 0.22, blue: 0.9, opacity: 1) //自定义颜色
     
@@ -13,28 +17,35 @@ struct ContentView: View {
     var body: some View { //some 表示不透明【类型】
         VStack(spacing: 10) {//垂直排列(类似 flex)
             Text("今天吃什么？")
-                .font(.largeTitle)
-                .bold()
-                .padding(.all, 6.0)
+                .font(.largeTitle).bold().padding(.all, 6.0)
             
             
-            Image("hambuger")
-                .resizable() // 🚀（调整器的位置很重要！因为每一行都会返回自己的 View）
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 240.0, height: 240.0)
-                
-//            Image(systemName: "globe")//systemName 是使用系统内置的 icon
-//                .imageScale(.large)
-//                .foregroundColor(.accentColor)//换成强调色（蓝色）
+//         如果有食物则显示食物的图
+            Group { //🚀给里边所有元素加上同样的属性
+                if(selectedFood != .none) {
+                    Text(selectedFood!.image) //显示 Foods内的 emoji
+                        .font(.system(size: 200))
+                        .minimumScaleFactor(0.5)//字体至少有 0.5 倍大
+                        .lineLimit(1) //👈限制只能显示一行
+                } else {
+                    Image("hambuger") //默认显示的元素
+                        .resizable() // 🚀（调整器的位置很重要！因为每一行都会返回自己的 View）
+                        .aspectRatio(contentMode: .fit)
+                    //            Image(systemName: "globe")//systemName 是使用系统内置的 icon
+                }
+            }.frame(width: 240.0, height: 240.0) //高度跟 图片 一样大
+//            .border(.red)
             
+
+        
             
             if(selectedFood != .none) {
-                Text(selectedFood ?? "")//文字展示为 => selectedFood 食物名
+                Text(selectedFood!.name)//文字展示为 => selectedFood 食物名
                     .font(.system(size: 24))
                     .padding(.vertical, 10)
                     .bold()
 					.foregroundColor(customColor)
-                    .id(selectedFood) // 🔥设定了 id 后, Swift UI 就会明确转场的是不同的对象效果为淡入淡出
+                    .id(selectedFood!.name) // 🔥设定了 id 后, Swift UI 就会明确转场的是不同的对象效果为淡入淡出
 //                    .transition(.scale.combined(with: .slide)) //组合动画
                     .transition(.asymmetric( //🔥分别设置进场、离场动画的动画曲线(需要有设置 id，不然 Swift 无法识别）
                         insertion:
@@ -46,13 +57,17 @@ struct ContentView: View {
             }
             
             // 🚀👇下面两种实现方式会产生不同的动画
-            selectedFood != .none ? Color.pink : Color.blue //【运算值的方式】, 会被判断为【同一个元素 - 同一个 View】, 因此会变成补帧的【形变动画】
+//            selectedFood != .none ? Color.pink : Color.blue //【运算值的方式】, 会被判断为【同一个元素 - 同一个 View】, 因此会变成补帧的【形变动画】
             
 //            if selectedFood != .none { //【条件值的方式】, 会被判断为【不同的元素 - 不同的 View】, 就会发生【转场动画】,因为 if 语句会被包装成 EitherView
 //                Color.pink
 //            } else {
 //                Color.blue
 //            }
+            
+            
+//            Color.clear //增加空白填充, 避免画面动来动去
+            Spacer()//增加空白填充, 避免画面动来动去
             
             
             // 👇用带 label 的 Button 可以调整按钮的样式
