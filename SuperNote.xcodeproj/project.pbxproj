@@ -21,6 +21,7 @@
 		096A5C9A2A78152300E4B9F3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		096A5C9C2A78152400E4B9F3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		096A5C9F2A78152400E4B9F3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		AD60044F2A7FEC9D000A6FBF /* PreviewDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewDevice.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +55,7 @@
 			isa = PBXGroup;
 			children = (
 				096A5C982A78152300E4B9F3 /* SuperNoteApp.swift */,
+				AD60044F2A7FEC9D000A6FBF /* PreviewDevice.swift */,
 				096A5C9A2A78152300E4B9F3 /* ContentView.swift */,
 				09425B8B2A7D5BBD00F994B8 /* Foods.swift */,
 				096A5C9C2A78152400E4B9F3 /* Assets.xcassets */,

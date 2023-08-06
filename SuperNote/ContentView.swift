@@ -15,137 +15,162 @@ struct ContentView: View {
     
     // 👇渲染 UI
     var body: some View { //some 表示不透明【类型】
-        VStack(spacing: 10) {//垂直排列(类似 flex)
-            Text("今天吃什么？")
-                .font(.largeTitle).bold().padding(.all, 6.0)
-            
-            
-//         如果有食物则显示食物的图
-            Group { //🚀给里边所有元素加上同样的属性
-                if(selectedFood != .none) {
-                    Text(selectedFood!.image) //显示 Foods内的 emoji
-                        .font(.system(size: 200))
-                        .minimumScaleFactor(0.5)//字体至少有 0.5 倍大
-                        .lineLimit(1) //👈限制只能显示一行
-                } else {
-                    Image("hambuger") //默认显示的元素
-                        .resizable() // 🚀（调整器的位置很重要！因为每一行都会返回自己的 View）
-                        .aspectRatio(contentMode: .fit)
-                }
-            }
-            .frame(width: 240.0, height: 240.0) //高度跟 图片 一样大
-//            .border(.red)
-            
-
-        
-            
-            if(selectedFood != .none) {
-                HStack {
-                    Text(selectedFood!.name)//文字展示为 => selectedFood 食物名
-                        .font(.system(size: 24))
-                        .padding(.vertical, 10)
-                        .bold()
-                        .foregroundColor(customColor)
-                        .id(selectedFood!.name) // 🔥设定了 id 后, Swift UI 就会明确转场的是不同的对象效果为淡入淡出
-                    //                    .transition(.scale.combined(with: .slide)) //组合动画
-                        .transition(.asymmetric( //🔥分别设置进场、离场动画的动画曲线(需要有设置 id，不然 Swift 无法识别）
-                            insertion:
-                                    .opacity
-                                .animation(.easeInOut(duration: 0.5).delay(0.2)),
-                            removal:
-                                    .opacity.animation(
-                                        .easeInOut(duration: 0.4))))
-                    Image(systemName: "info.circle.fill") //info icon
-                        .foregroundColor(.secondary)
-                }
-
+        ScrollView {
+            VStack(spacing: 10) {
+                Text("今天吃什么？")
+                    .font(.largeTitle).bold().padding(.all, 6.0)
                 
-//                👇信息卡片
-                Text("热量 \(selectedFood!.calorie.formatted()) 大卡") //calorie 是 selectedFood 内的一个参数
-                    .font(.subheadline).bold()
-                VStack {
+                
+                //         如果有食物则显示食物的图
+                Group { //🚀给里边所有元素加上同样的属性
+                    if(selectedFood != .none) {
+                        Text(selectedFood!.image) //显示 Foods内的 emoji
+                            .font(.system(size: 200))
+                            .minimumScaleFactor(0.5)//字体至少有 0.5 倍大
+                            .lineLimit(1) //👈限制只能显示一行
+                    } else {
+                        Image("hambuger") //默认显示的元素
+                            .resizable() // 🚀（调整器的位置很重要！因为每一行都会返回自己的 View）
+                            .aspectRatio(contentMode: .fit)
+                    }
+                }
+                .frame(width: 240.0, height: 240.0) //高度跟 图片 一样大
+                //            .border(.red)
+                
+                
+                
+                
+                if(selectedFood != .none) {
                     HStack {
-                        VStack(spacing: 12) {
+                        Text(selectedFood!.name)//文字展示为 => selectedFood 食物名
+                            .font(.system(size: 24))
+                            .padding(.vertical, 10)
+                            .bold()
+                            .foregroundColor(customColor)
+                            .id(selectedFood!.name) // 🔥设定了 id 后, Swift UI 就会明确转场的是不同的对象效果为淡入淡出
+                        //                    .transition(.scale.combined(with: .slide)) //组合动画
+                            .transition(.asymmetric( //🔥分别设置进场、离场动画的动画曲线(需要有设置 id，不然 Swift 无法识别）
+                                insertion:
+                                        .opacity
+                                    .animation(.easeInOut(duration: 0.6).delay(0.2)),
+                                removal:
+                                        .opacity.animation(
+                                            .easeInOut(duration: 0.9))))
+                        Image(systemName: "info.circle.fill") //info icon
+                            .foregroundColor(.secondary)
+                    }
+                    
+                    
+                    //👇信息卡片
+                    Text("热量 \(selectedFood!.calorie.formatted()) 大卡") //calorie 是 selectedFood 内的一个参数
+                        .font(.subheadline).bold()
+                        .padding(.bottom, 20)
+                    
+                    //【排版方式一】 ————————————————————————————————————————————————————————————————————————
+//                    VStack { //垂直排列(类似 flex)
+//                        HStack {
+//                            VStack(spacing: 12) {
+//                                Text("蛋白质")
+//                                Text(selectedFood!.protein.formatted() + "g")
+//                            }
+//
+//                            Divider().frame(width: 1).padding(.horizontal) //水平方向增加间距, 🔥要先定义 frame 为 1dp, 然后再增加 padding
+//
+//                            VStack(spacing: 12) {
+//                                Text("脂肪")
+//                                Text(selectedFood!.fat.formatted() + "g")
+//                            }
+//
+//                            Divider().frame(width: 1).padding(.horizontal)  //水平方向增加间距, 🔥要先定义 frame 为 1dp, 然后再增加 padding
+//
+//                            VStack(spacing: 12) {
+//                                Text("碳水")
+//                                Text(selectedFood!.carb.formatted() + "g")
+//                            }
+//                        }
+//                        .padding(.horizontal) //🚀需要加在 background 之前！
+//                        .background(RoundedRectangle(cornerRadius: 12).foregroundColor(Color(.systemBackground)))
+//
+//                    }.frame(width: .infinity, height: 80.0) //背景色高度跟 图片 一样大
+                    
+                    
+                    //【排版方式二】 ————————————————————————————————————————————————————————————————————————
+                    Grid(horizontalSpacing: 12, verticalSpacing: 12) {
+                        GridRow {
                             Text("蛋白质")
-                            Text(selectedFood!.protein.formatted() + "g")
-                        }
-                        
-                        Divider().frame(width: 1).padding(.horizontal) //水平方向增加间距, 🔥要先定义 frame 为 1dp, 然后再增加 padding
-                        
-                        VStack(spacing: 12) {
                             Text("脂肪")
-                            Text(selectedFood!.fat.formatted() + "g")
-                        }
-                        
-                        Divider().frame(width: 1).padding(.horizontal)  //水平方向增加间距, 🔥要先定义 frame 为 1dp, 然后再增加 padding
-                        
-                        VStack(spacing: 12) {
                             Text("碳水")
+                        }.frame(minWidth: 80)
+                        
+                        Divider()
+                            .gridCellUnsizedAxes(.horizontal) //gridCellUnsizedAxes 指不要分配给这个 grid 元素额外的空间, 避免撑满整个画面
+                            .padding(.horizontal, -4) // .horizontal, -4 表示增加一下分割线的宽度
+//                            .rotationEffect(.degrees(90))
+                        
+                        GridRow {
+                            Text(selectedFood!.protein.formatted() + "g")
+                            Text(selectedFood!.fat.formatted() + "g")
                             Text(selectedFood!.carb.formatted() + "g")
                         }
                     }
-                    .padding(.horizontal) //🚀需要加在 background 之前！
+                    .padding()
                     .background(RoundedRectangle(cornerRadius: 12).foregroundColor(Color(.systemBackground)))
-
+                    .frame(width: .infinity, height: 80.0) //背景色高度跟 图片 一样大
                 }
-//                .frame(maxWidth: .infinity, height:200)
-                .frame(width: .infinity, height: 80.0) //高度跟 图片 一样大
-              
-            }
             
-            // 🚀👇下面两种实现方式会产生不同的动画
-//            selectedFood != .none ? Color.pink : Color.blue //【运算值的方式】, 会被判断为【同一个元素 - 同一个 View】, 因此会变成补帧的【形变动画】
-            
-//            if selectedFood != .none { //【条件值的方式】, 会被判断为【不同的元素 - 不同的 View】, 就会发生【转场动画】,因为 if 语句会被包装成 EitherView
-//                Color.pink
-//            } else {
-//                Color.blue
-//            }
-            
-            
-//          Color.clear //增加空白填充, 避免画面动来动去
-            if(selectedFood != .none) {
-                Spacer()//增加空白填充, 避免画面动来动去
-            }
-            
-            
-            
-            // 👇用带 label 的 Button 可以调整按钮的样式
-            Button(role: .none) {
-                withAnimation { //👈这个加了后会只影响当前这个元素, 单独让它有动画, 可以设置有动画的时机
-                    selectedFood = food.shuffled().filter { $0 != selectedFood }.first //shuffled() 利用原始数组返回一个新的数组，其中包含原始数组中的元素，但顺序是随机的； $0 ! 表示过滤掉跟当前一样的元素，随机抽取下一个非当前元素的元素
+                
+                
+                // 🚀👇下面两种实现方式会产生不同的动画
+                //            selectedFood != .none ? Color.pink : Color.blue //【运算值的方式】, 会被判断为【同一个元素 - 同一个 View】, 因此会变成补帧的【形变动画】
+                
+                //            if selectedFood != .none { //【条件值的方式】, 会被判断为【不同的元素 - 不同的 View】, 就会发生【转场动画】,因为 if 语句会被包装成 EitherView
+                //                Color.pink
+                //            } else {
+                //                Color.blue
+                //            }
+                
+                
+                //          Color.clear //增加空白填充, 避免画面动来动去
+                if(selectedFood != .none) {
+                    Spacer().layoutPriority(1)//增加空白填充, 避免画面动来动去, layoutPriority 是设置调整器的优先级
                 }
-            } label: {
-                Text(selectedFood == .none ? "告诉我" : "手气不错")
-                    .animation(.none, value: selectedFood) //删除文字的渐变动画（系统默认效果）
-                    .foregroundColor(.white)
-                    .frame(width: 180, height: 38, alignment: .center) // 改变按钮宽度
-                    .transformEffect(.init(translationX: 0, y: 0)) //明确文字的位置（ 涉及到了 Swift 内置动画的原理, Swift 内置了转场动画跟位移动画, 避免让文字元素产生上下移动的效果, 相当于不让位置变化）
-            }
+                
+                
+                
+                // 👇用带 label 的 Button 可以调整按钮的样式
+                Button(role: .none) {
+                    withAnimation { //👈这个加了后会只影响当前这个元素, 单独让它有动画, 可以设置有动画的时机
+                        selectedFood = food.shuffled().filter { $0 != selectedFood }.first //shuffled() 利用原始数组返回一个新的数组，其中包含原始数组中的元素，但顺序是随机的； $0 ! 表示过滤掉跟当前一样的元素，随机抽取下一个非当前元素的元素
+                    }
+                } label: {
+                    Text(selectedFood == .none ? "告诉我" : "手气不错")
+                        .animation(.none, value: selectedFood) //删除文字的渐变动画（系统默认效果）
+                        .foregroundColor(.white)
+                        .frame(width: 180, height: 38, alignment: .center) // 改变按钮宽度
+                        .transformEffect(.init(translationX: 0, y: 0)) //明确文字的位置（ 涉及到了 Swift 内置动画的原理, Swift 内置了转场动画跟位移动画, 避免让文字元素产生上下移动的效果, 相当于不让位置变化）
+                }
                 .buttonStyle(.borderedProminent)
                 .cornerRadius(12)
                 .padding(.bottom, +4)
-            //                .background(customColor)
-             
-			
-            Button(role: .none) {
-                selectedFood = .none
-            } label: {
-                Text("重置")
-                    .padding(/*@START_MENU_TOKEN@*/.all, 8.0/*@END_MENU_TOKEN@*/)
-                    .foregroundColor(.white)
-                    .frame(width: 200, height: 50, alignment: .center) // 改变按钮宽度
-            }
+                //                .background(customColor)
+                
+                
+                Button(role: .none) {
+                    selectedFood = .none
+                } label: {
+                    Text("重置")
+                        .padding(/*@START_MENU_TOKEN@*/.all, 8.0/*@END_MENU_TOKEN@*/)
+                        .foregroundColor(.white)
+                        .frame(width: 200, height: 50, alignment: .center) // 改变按钮宽度
+                }
                 .background(.black)
                 .cornerRadius(12)
-
-            
-        }
-        
-            .frame(maxWidth: .infinity, maxHeight: .infinity)//背景无限延伸 （调整器的位置很重要！）
-            .padding().opacity(0.8)
+            }
+            .frame(maxWidth: .infinity, minHeight: UIScreen.main.bounds.height - 100)//背景无限延伸 （调整器的位置很重要！）
+            .padding().opacity(1)
             .animation(.easeInOut(duration: 0.3), value: selectedFood) //⚡️这个动画要放在 VStack 身上，是因为要在 VStack 开始出现时就开始观察动画，动画的时间跟变化速率 、变化的对象（比如食物文字发生变化，就执行动画）
-            .background(Color(.secondarySystemBackground))
+        }
+        .background(Color(.secondarySystemBackground)) //背景底色
     }
 }
 
@@ -156,9 +181,14 @@ extension ContentView {
     }
 }
 
+extension PreviewDevice {
+    static let iPad = PreviewDevice(rawValue: "iPad Pro (12.9-inch) (6th generation)")
+    static let iPhoneSE = PreviewDevice(rawValue: "iPhone SE (3rd generation)")
+}
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView(slectedFood: .examples.first!) //模拟器
+        ContentView(slectedFood: .examples.first!).previewDevice(.iPad) //模拟器, 需要在全局内定义好静态属性！
     }
 }
