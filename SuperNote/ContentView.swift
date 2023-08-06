@@ -31,29 +31,66 @@ struct ContentView: View {
                     Image("hambuger") //默认显示的元素
                         .resizable() // 🚀（调整器的位置很重要！因为每一行都会返回自己的 View）
                         .aspectRatio(contentMode: .fit)
-                    //            Image(systemName: "globe")//systemName 是使用系统内置的 icon
                 }
-            }.frame(width: 240.0, height: 240.0) //高度跟 图片 一样大
+            }
+            .frame(width: 240.0, height: 240.0) //高度跟 图片 一样大
 //            .border(.red)
             
 
         
             
             if(selectedFood != .none) {
-                Text(selectedFood!.name)//文字展示为 => selectedFood 食物名
-                    .font(.system(size: 24))
-                    .padding(.vertical, 10)
-                    .bold()
-					.foregroundColor(customColor)
-                    .id(selectedFood!.name) // 🔥设定了 id 后, Swift UI 就会明确转场的是不同的对象效果为淡入淡出
-//                    .transition(.scale.combined(with: .slide)) //组合动画
-                    .transition(.asymmetric( //🔥分别设置进场、离场动画的动画曲线(需要有设置 id，不然 Swift 无法识别）
-                        insertion:
-                            .opacity
-                            .animation(.easeInOut(duration: 0.5).delay(0.2)),
-                        removal:
-                            .opacity.animation(
-                            .easeInOut(duration: 0.4))))
+                HStack {
+                    Text(selectedFood!.name)//文字展示为 => selectedFood 食物名
+                        .font(.system(size: 24))
+                        .padding(.vertical, 10)
+                        .bold()
+                        .foregroundColor(customColor)
+                        .id(selectedFood!.name) // 🔥设定了 id 后, Swift UI 就会明确转场的是不同的对象效果为淡入淡出
+                    //                    .transition(.scale.combined(with: .slide)) //组合动画
+                        .transition(.asymmetric( //🔥分别设置进场、离场动画的动画曲线(需要有设置 id，不然 Swift 无法识别）
+                            insertion:
+                                    .opacity
+                                .animation(.easeInOut(duration: 0.5).delay(0.2)),
+                            removal:
+                                    .opacity.animation(
+                                        .easeInOut(duration: 0.4))))
+                    Image(systemName: "info.circle.fill") //info icon
+                        .foregroundColor(.secondary)
+                }
+
+                
+//                👇信息卡片
+                Text("热量 \(selectedFood!.calorie.formatted()) 大卡") //calorie 是 selectedFood 内的一个参数
+                    .font(.subheadline).bold()
+                VStack {
+                    HStack {
+                        VStack(spacing: 12) {
+                            Text("蛋白质")
+                            Text(selectedFood!.protein.formatted() + "g")
+                        }
+                        
+                        Divider().frame(width: 1).padding(.horizontal) //水平方向增加间距, 🔥要先定义 frame 为 1dp, 然后再增加 padding
+                        
+                        VStack(spacing: 12) {
+                            Text("脂肪")
+                            Text(selectedFood!.fat.formatted() + "g")
+                        }
+                        
+                        Divider().frame(width: 1).padding(.horizontal)  //水平方向增加间距, 🔥要先定义 frame 为 1dp, 然后再增加 padding
+                        
+                        VStack(spacing: 12) {
+                            Text("碳水")
+                            Text(selectedFood!.carb.formatted() + "g")
+                        }
+                    }
+                    .padding(.horizontal) //🚀需要加在 background 之前！
+                    .background(RoundedRectangle(cornerRadius: 12).foregroundColor(Color(.systemBackground)))
+
+                }
+//                .frame(maxWidth: .infinity, height:200)
+                .frame(width: .infinity, height: 80.0) //高度跟 图片 一样大
+              
             }
             
             // 🚀👇下面两种实现方式会产生不同的动画
@@ -110,8 +147,15 @@ struct ContentView: View {
             .animation(.easeInOut(duration: 0.3), value: selectedFood) //⚡️这个动画要放在 VStack 身上，是因为要在 VStack 开始出现时就开始观察动画，动画的时间跟变化速率 、变化的对象（比如食物文字发生变化，就执行动画）
             .background(Color(.secondarySystemBackground))
     }
-    
 }
+
+
+extension ContentView {
+    init(slectedFood: Foods) {
+        _selectedFood = State(wrappedValue: slectedFood)
+    }
+}
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
