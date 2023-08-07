@@ -3,12 +3,12 @@ import SwiftUI
 
 
 struct ContentView: View {
-//    let food = ["汉堡", "沙拉", "披萨", "义大利麵", "鸡腿便当", "刀削麵", "火锅", "牛肉麵", "关东煮"]
+//    let food = ["沙拉", "披萨", "义大利麵", "鸡腿便当", "刀削麵", "火锅", "牛肉麵", "关东煮"]
 //    @State private var selectedFood: String? //存放选好的 food, 用 @State 来声明, 可以在数据变动时更新 UI，类似 useState~
     
     let food = Foods.examples
-    @State private var selectedFood: Foods? //存放食物数据
-
+    @State private var selectedFood: Foods? //是否展示食物图片
+    @State private var showInfo: Bool = true // //是否展示食物信息卡片
     
 
     let customColor = Color(red: 0.28, green: 0.22, blue: 0.9, opacity: 1) //自定义颜色
@@ -21,7 +21,7 @@ struct ContentView: View {
                     .font(.largeTitle).bold().padding(.all, 6.0)
                 
                 
-                //         如果有食物则显示食物的图
+                //👇 如果有食物则显示【食物图】
                 Group { //🚀给里边所有元素加上同样的属性
                     if(selectedFood != .none) {
                         Text(selectedFood!.image) //显示 Foods内的 emoji
@@ -35,11 +35,12 @@ struct ContentView: View {
                     }
                 }
                 .frame(width: 240.0, height: 240.0) //高度跟 图片 一样大
-                //            .border(.red)
+                // .border(.red)
                 
                 
                 
                 
+//                👇食物图片 + 文字
                 if(selectedFood != .none) {
                     HStack {
                         Text(selectedFood!.name)//文字展示为 => selectedFood 食物名
@@ -48,7 +49,7 @@ struct ContentView: View {
                             .bold()
                             .foregroundColor(customColor)
                             .id(selectedFood!.name) // 🔥设定了 id 后, Swift UI 就会明确转场的是不同的对象效果为淡入淡出
-                        //                    .transition(.scale.combined(with: .slide)) //组合动画
+                        // .transition(.scale.combined(with: .slide)) //组合动画
                             .transition(.asymmetric( //🔥分别设置进场、离场动画的动画曲线(需要有设置 id，不然 Swift 无法识别）
                                 insertion:
                                         .opacity
@@ -56,9 +57,15 @@ struct ContentView: View {
                                 removal:
                                         .opacity.animation(
                                             .easeInOut(duration: 0.9))))
-                        Image(systemName: "info.circle.fill") //info icon
-                            .foregroundColor(.secondary)
+                        
+                        Button {
+                            showInfo.toggle() //🚀 toggle 为 boolean 封装好的切换方法
+                            } label: {
+                                Image(systemName: "info.circle.fill") //info icon
+                                    .foregroundColor(.secondary)
+                            }
                     }
+                    
                     
                     
                     //👇信息卡片
@@ -66,78 +73,82 @@ struct ContentView: View {
                         .font(.subheadline).bold()
                         .padding(.bottom, 20)
                     
-                    //【排版方式一】 ————————————————————————————————————————————————————————————————————————
-//                    VStack { //垂直排列(类似 flex)
-//                        HStack {
-//                            VStack(spacing: 12) {
-//                                Text("蛋白质")
-//                                Text(selectedFood!.protein.formatted() + "g")
-//                            }
-//
-//                            Divider().frame(width: 1).padding(.horizontal) //水平方向增加间距, 🔥要先定义 frame 为 1dp, 然后再增加 padding
-//
-//                            VStack(spacing: 12) {
-//                                Text("脂肪")
-//                                Text(selectedFood!.fat.formatted() + "g")
-//                            }
-//
-//                            Divider().frame(width: 1).padding(.horizontal)  //水平方向增加间距, 🔥要先定义 frame 为 1dp, 然后再增加 padding
-//
-//                            VStack(spacing: 12) {
-//                                Text("碳水")
-//                                Text(selectedFood!.carb.formatted() + "g")
-//                            }
-//                        }
-//                        .padding(.horizontal) //🚀需要加在 background 之前！
-//                        .background(RoundedRectangle(cornerRadius: 12).foregroundColor(Color(.systemBackground)))
-//
-//                    }.frame(width: .infinity, height: 80.0) //背景色高度跟 图片 一样大
-                    
-                    
-                    //【排版方式二】 ————————————————————————————————————————————————————————————————————————
-                    Grid(horizontalSpacing: 12, verticalSpacing: 12) {
-                        GridRow {
-                            Text("蛋白质")
-                            Text("脂肪")
-                            Text("碳水")
-                        }.frame(minWidth: 80)
-                        
-                        Divider()
-                            .gridCellUnsizedAxes(.horizontal) //gridCellUnsizedAxes 指不要分配给这个 grid 元素额外的空间, 避免撑满整个画面
-                            .padding(.horizontal, -4) // .horizontal, -4 表示增加一下分割线的宽度
-//                            .rotationEffect(.degrees(90))
-                        
-                        GridRow {
-                            Text(selectedFood!.protein.formatted() + "g")
-                            Text(selectedFood!.fat.formatted() + "g")
-                            Text(selectedFood!.carb.formatted() + "g")
+                    VStack { //👈 VStack 用来固定 Info 菜单往下出现的动画范围
+                        if showInfo {
+                            //【排版方式二】 ————————————————————————————————————————————————————————————————————————
+                            Grid(horizontalSpacing: 12, verticalSpacing: 12) {
+                                GridRow {
+                                    Text("蛋白质")
+                                    Text("脂肪")
+                                    Text("碳水")
+                                }.frame(minWidth: 80)
+                                
+                                Divider()
+                                    .gridCellUnsizedAxes(.horizontal) //gridCellUnsizedAxes 指不要分配给这个 grid 元素额外的空间, 避免撑满整个画面
+                                    .padding(.horizontal, -4) // .horizontal, -4 表示增加一下分割线的宽度
+                                //                            .rotationEffect(.degrees(90))
+                                
+                                GridRow {
+                                    Text(selectedFood!.protein.formatted() + "g")
+                                    Text(selectedFood!.fat.formatted() + "g")
+                                    Text(selectedFood!.carb.formatted() + "g")
+                                }
+                            }
+                            .padding()
+                            .background(RoundedRectangle(cornerRadius: 12).foregroundColor(Color(.systemBackground)))
+                            .frame(width: .infinity, height: 80.0) //背景色高度跟 图片 一样大
+                            .transition(.move(edge: .top).combined(with: .opacity)) //🔥给信息卡片的动画增加透明度的变化！
+                            //【排版方式一】 ————————————————————————————————————————————————————————————————————————
+                            //                    VStack { //垂直排列(类似 flex)
+                            //                        HStack {
+                            //                            VStack(spacing: 12) {
+                            //                                Text("蛋白质")
+                            //                                Text(selectedFood!.protein.formatted() + "g")
+                            //                            }
+                            //
+                            //                            Divider().frame(width: 1).padding(.horizontal) //水平方向增加间距, 🔥要先定义 frame 为 1dp, 然后再增加 padding
+                            //
+                            //                            VStack(spacing: 12) {
+                            //                                Text("脂肪")
+                            //                                Text(selectedFood!.fat.formatted() + "g")
+                            //                            }
+                            //
+                            //                            Divider().frame(width: 1).padding(.horizontal)  //水平方向增加间距, 🔥要先定义 frame 为 1dp, 然后再增加 padding
+                            //
+                            //                            VStack(spacing: 12) {
+                            //                                Text("碳水")
+                            //                                Text(selectedFood!.carb.formatted() + "g")
+                            //                            }
+                            //                        }
+                            //                        .padding(.horizontal) //🚀需要加在 background 之前！
+                            //                        .background(RoundedRectangle(cornerRadius: 12).foregroundColor(Color(.systemBackground)))
+                            //                    }.frame(width: .infinity, height: 80.0) //背景色高度跟 图片 一样大
                         }
                     }
-                    .padding()
-                    .background(RoundedRectangle(cornerRadius: 12).foregroundColor(Color(.systemBackground)))
-                    .frame(width: .infinity, height: 80.0) //背景色高度跟 图片 一样大
+                    .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
+//                        .border(.red)
+                    .clipped()
+                        
                 }
             
-                
+            
                 
                 // 🚀👇下面两种实现方式会产生不同的动画
                 //            selectedFood != .none ? Color.pink : Color.blue //【运算值的方式】, 会被判断为【同一个元素 - 同一个 View】, 因此会变成补帧的【形变动画】
-                
                 //            if selectedFood != .none { //【条件值的方式】, 会被判断为【不同的元素 - 不同的 View】, 就会发生【转场动画】,因为 if 语句会被包装成 EitherView
                 //                Color.pink
                 //            } else {
                 //                Color.blue
                 //            }
-                
-                
                 //          Color.clear //增加空白填充, 避免画面动来动去
+                
                 if(selectedFood != .none) {
                     Spacer().layoutPriority(1)//增加空白填充, 避免画面动来动去, layoutPriority 是设置调整器的优先级
                 }
                 
                 
                 
-                // 👇用带 label 的 Button 可以调整按钮的样式
+                // 👇底部按钮 -- 用带 label 的 Button 可以调整按钮的样式
                 Button(role: .none) {
                     withAnimation { //👈这个加了后会只影响当前这个元素, 单独让它有动画, 可以设置有动画的时机
                         selectedFood = food.shuffled().filter { $0 != selectedFood }.first //shuffled() 利用原始数组返回一个新的数组，其中包含原始数组中的元素，但顺序是随机的； $0 ! 表示过滤掉跟当前一样的元素，随机抽取下一个非当前元素的元素
@@ -157,6 +168,7 @@ struct ContentView: View {
                 
                 Button(role: .none) {
                     selectedFood = .none
+                    showInfo = true //重置 info 卡片的状态
                 } label: {
                     Text("重置")
                         .padding(/*@START_MENU_TOKEN@*/.all, 8.0/*@END_MENU_TOKEN@*/)
@@ -168,7 +180,8 @@ struct ContentView: View {
             }
             .frame(maxWidth: .infinity, minHeight: UIScreen.main.bounds.height - 100)//背景无限延伸 （调整器的位置很重要！）
             .padding().opacity(1)
-            .animation(.easeInOut(duration: 0.3), value: selectedFood) //⚡️这个动画要放在 VStack 身上，是因为要在 VStack 开始出现时就开始观察动画，动画的时间跟变化速率 、变化的对象（比如食物文字发生变化，就执行动画）
+            .animation(.easeInOut(duration: 0.3), value: selectedFood) //⚡️【食物出现的动画】这个动画要放在 VStack 身上，是因为要在 VStack 开始出现时就开始观察动画，动画的时间跟变化速率 、变化的对象（比如食物文字发生变化，就执行动画）, 表示给用到了 selectedFood 这个属性的元素增加动画
+            .animation(.spring(dampingFraction: 0.65), value: showInfo)//⚡️⚡️⚡️【Info 卡片下弹动画】表示给用到了 showInfo 这个属性的元素增加动画！
         }
         .background(Color(.secondarySystemBackground)) //背景底色
     }
