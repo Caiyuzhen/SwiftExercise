@@ -14,7 +14,6 @@ struct Food: Equatable {
     var protein: Double
     
     static let examples = [
-        Food(name: "漢堡", image: "🍔", calorie: 294, carb: 14, fat: 24, protein: 17),
         Food(name: "沙拉", image: "🥗", calorie: 89, carb: 20, fat: 0, protein: 1.8),
         Food(name: "披薩", image: "🍕", calorie: 266, carb: 33, fat: 10, protein: 11),
         Food(name: "義大利麵", image: "🍝", calorie: 339, carb: 74, fat: 1.1, protein: 12),
