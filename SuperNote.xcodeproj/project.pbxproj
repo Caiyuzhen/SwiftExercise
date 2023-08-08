@@ -12,6 +12,7 @@
 		096A5C9B2A78152300E4B9F3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 096A5C9A2A78152300E4B9F3 /* ContentView.swift */; };
 		096A5C9D2A78152400E4B9F3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 096A5C9C2A78152400E4B9F3 /* Assets.xcassets */; };
 		096A5CA02A78152400E4B9F3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 096A5C9F2A78152400E4B9F3 /* Preview Assets.xcassets */; };
+		09A7991E2A82B48C00EB54BB /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A7991D2A82B48C00EB54BB /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +22,7 @@
 		096A5C9A2A78152300E4B9F3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		096A5C9C2A78152400E4B9F3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		096A5C9F2A78152400E4B9F3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		09A7991D2A82B48C00EB54BB /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		AD60044F2A7FEC9D000A6FBF /* PreviewDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewDevice.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -56,6 +58,7 @@
 			children = (
 				096A5C982A78152300E4B9F3 /* SuperNoteApp.swift */,
 				AD60044F2A7FEC9D000A6FBF /* PreviewDevice.swift */,
+				09A7991D2A82B48C00EB54BB /* Extensions.swift */,
 				096A5C9A2A78152300E4B9F3 /* ContentView.swift */,
 				09425B8B2A7D5BBD00F994B8 /* Foods.swift */,
 				096A5C9C2A78152400E4B9F3 /* Assets.xcassets */,
@@ -145,6 +148,7 @@
 				096A5C9B2A78152300E4B9F3 /* ContentView.swift in Sources */,
 				09425B8C2A7D5BBD00F994B8 /* Foods.swift in Sources */,
 				096A5C992A78152300E4B9F3 /* SuperNoteApp.swift in Sources */,
+				09A7991E2A82B48C00EB54BB /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

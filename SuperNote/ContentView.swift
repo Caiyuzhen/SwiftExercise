@@ -1,37 +1,6 @@
 import SwiftUI
 
 
-extension View { //👈抽象出【主按钮】的样式
-    func mainBtnStyle() -> some View {
-        buttonStyle(.borderedProminent)
-        .cornerRadius(12)
-        .padding(.bottom, +4)
-        //.background(customColor)
-    }
-}
-
-
-extension Animation { //👈抽象出来的动画属性值
-    static let smallSpring = Animation.spring(dampingFraction: 0.65)
-    static let smallEase = Animation.easeInOut(duration: 0.3)
-}
-
-
-extension Color {
-    static let bgBody = Color(.secondarySystemBackground)
-}
-
-
-extension AnyTransition {
-    static let delayInsertionOpacity = Self.asymmetric( //🔥分别设置进场、离场动画的动画曲线(需要有设置 id，不然 Swift 无法识别）
-        insertion:
-            .opacity
-            .animation(.easeInOut(duration: 0.6).delay(0.2)),
-        removal:
-            .opacity.animation(
-            .easeInOut(duration: 0.9)))
-}
-
 
 //👇核心界面框架
 struct ContentView: View {
@@ -146,9 +115,9 @@ private extension ContentView {
                     }
                 }
                 .padding()
-                .background(RoundedRectangle(cornerRadius: 12).foregroundColor(Color(.systemBackground)))
+                .roundRectBg() // 抽象出来的颜色方法
                 .frame(width: .infinity, height: 80.0) //背景色高度跟 图片 一样大
-                .transition(.move(edge: .top).combined(with: .opacity)) //🔥给信息卡片的动画增加透明度的变化！
+                .transition(.moveUpOpacity) //🔥给信息卡片的动画增加透明度的变化！
                 .cornerRadius(12) // 增加圆角
                 
                 
