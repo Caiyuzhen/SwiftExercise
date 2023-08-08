@@ -1,7 +1,7 @@
 import SwiftUI
 
 
-extension View { //👈抽象出按钮的样式
+extension View { //👈抽象出【主按钮】的样式
     func mainBtnStyle() -> some View {
         buttonStyle(.borderedProminent)
         .cornerRadius(12)
@@ -11,11 +11,32 @@ extension View { //👈抽象出按钮的样式
 }
 
 
+extension Animation { //👈抽象出来的动画属性值
+    static let smallSpring = Animation.spring(dampingFraction: 0.65)
+    static let smallEase = Animation.easeInOut(duration: 0.3)
+}
 
+
+extension Color {
+    static let bgBody = Color(.secondarySystemBackground)
+}
+
+
+extension AnyTransition {
+    static let delayInsertionOpacity = Self.asymmetric( //🔥分别设置进场、离场动画的动画曲线(需要有设置 id，不然 Swift 无法识别）
+        insertion:
+            .opacity
+            .animation(.easeInOut(duration: 0.6).delay(0.2)),
+        removal:
+            .opacity.animation(
+            .easeInOut(duration: 0.9)))
+}
+
+
+//👇核心界面框架
 struct ContentView: View {
 //    let food = ["沙拉", "披萨", "义大利麵", "鸡腿便当", "刀削麵", "火锅", "牛肉麵", "关东煮"]
 //    @State private var selectedFood: String? //存放选好的 food, 用 @State 来声明, 可以在数据变动时更新 UI，类似 useState~
-    
     @State private var isSelectedFood: Foods? //是否展示食物图片
     @State private var isShowInfo: Bool = true // //是否展示食物信息卡片
     let food = Foods.examples
@@ -48,10 +69,10 @@ struct ContentView: View {
             }
             .frame(maxWidth: .infinity, minHeight: UIScreen.main.bounds.height - 100)//背景无限延伸 （调整器的位置很重要！）
             .padding().opacity(1)
-            .animation(.easeInOut(duration: 0.3), value: isSelectedFood) //⚡️【食物出现的动画】这个动画要放在 VStack 身上，是因为要在 VStack 开始出现时就开始观察动画，动画的时间跟变化速率 、变化的对象（比如食物文字发生变化，就执行动画）, 表示给用到了 selectedFood 这个属性的元素增加动画
-            .animation(.spring(dampingFraction: 0.65), value: isShowInfo)//⚡️⚡️⚡️【Info 卡片下弹动画】表示给用到了 showInfo 这个属性的元素增加动画！
+            .animation(.smallEase, value: isSelectedFood) //⚡️【食物出现的动画】这个动画要放在 VStack 身上，是因为要在 VStack 开始出现时就开始观察动画，动画的时间跟变化速率 、变化的对象（比如食物文字发生变化，就执行动画）, 表示给用到了 selectedFood 这个属性的元素增加动画
+            .animation(.smallSpring, value: isShowInfo)//⚡️⚡️⚡️【Info 卡片下弹动画】表示给用到了 showInfo 这个属性的元素增加动画！ => smallSpring 表示后续我们自己抽象出来的属性
         }
-        .background(Color(.secondarySystemBackground)) //背景底色
+        .background(Color.bgBody) //背景底色
     }
     
 }
@@ -75,7 +96,7 @@ private extension ContentView {
                     .aspectRatio(contentMode: .fit)
             }
         }
-        .frame(width: 240.0, height: 240.0) //高度跟 图片 一样大
+        .frame(width: 240.0, height: 240.0) //高度跟 图片本身 一样大
     }
     
     
@@ -88,14 +109,8 @@ private extension ContentView {
                 .bold()
                 .foregroundColor(customColor)
                 .id(isSelectedFood!.name) // 🔥设定了 id 后, Swift UI 就会明确转场的是不同的对象效果为淡入淡出
+                .transition(.delayInsertionOpacity)
             // .transition(.scale.combined(with: .slide)) //组合动画
-                .transition(.asymmetric( //🔥分别设置进场、离场动画的动画曲线(需要有设置 id，不然 Swift 无法识别）
-                    insertion:
-                            .opacity
-                        .animation(.easeInOut(duration: 0.6).delay(0.2)),
-                    removal:
-                            .opacity.animation(
-                                .easeInOut(duration: 0.9))))
             
             Button {
                 isShowInfo.toggle() //🚀 toggle 为 boolean 封装好的切换方法
@@ -135,6 +150,7 @@ private extension ContentView {
                 .frame(width: .infinity, height: 80.0) //背景色高度跟 图片 一样大
                 .transition(.move(edge: .top).combined(with: .opacity)) //🔥给信息卡片的动画增加透明度的变化！
                 .cornerRadius(12) // 增加圆角
+                
                 
                 //【排版方式一】 ————————————————————————————————————————————————————————————————————————
                 //                    VStack { //垂直排列(类似 flex)
@@ -182,7 +198,7 @@ private extension ContentView {
                 .frame(width: 180, height: 38, alignment: .center) // 改变按钮宽度
                 .transformEffect(.init(translationX: 0, y: 0)) //明确文字的位置（ 涉及到了 Swift 内置动画的原理, Swift 内置了转场动画跟位移动画, 避免让文字元素产生上下移动的效果, 相当于不让位置变化）
         }
-        .mainBtnStyle()
+        .mainBtnStyle() //抽象出来的按钮样式
     }
     
     
@@ -195,7 +211,7 @@ private extension ContentView {
             Text("重置")
                 .padding(/*@START_MENU_TOKEN@*/.all, 8.0/*@END_MENU_TOKEN@*/)
                 .foregroundColor(.white)
-                .frame(width: 200, height: 50, alignment: .center) // 改变按钮宽度
+                .frame(width: 200, height: 50, alignment: .center) // 用文字撑开按钮宽度
         }
         .background(.black)
         .cornerRadius(12)
