@@ -18,9 +18,9 @@ extension View { //👈抽象出【主按钮】的样式
     
     func roundRectBg<BG: ShapeStyle>(
             radius: CGFloat = 12,
-            fill: BG = Color.bg) -> some View {//🖌️🖌️ Color. XXX 来自 extension Color 的定义
-                background(RoundedRectangle(cornerRadius: radius)
-                    .foregroundColor(fill as! Color)) //圆角矩形的背景, 用 ShapeStyle 来填充颜色
+            fill: BG = .bg) -> some View {//🖌️🖌️ Color. XXX 来自 extension Color 的定义, 如果👇下面定义了  static var bg: Color { ... } 之后, 这里就不用加 Color 了！ 直接 .bg !!
+                background(RoundedRectangle(cornerRadius: radius).fill(fill))// 因为圆角矩形原本就是形状，所以最好用 .fill
+//                    .foregroundColor(fill as! Color)) //圆角矩形的背景, 用 ShapeStyle 来填充颜色
     }
 }
 
@@ -32,9 +32,9 @@ extension Animation { //👈抽象出来的动画属性值
 }
 
 
-extension Color {
-    static let bg = Color(.systemBackground)
-    static let bgBody = Color(.secondarySystemBackground)
+extension ShapeStyle where Self == Color {
+    static var bg: Color { Color(.systemBackground) } //⚡️⚡️⚡️var 是计算属性，let 是静态属性！！
+    static var bgBody: Color { Color(.secondarySystemBackground) }
 }
 
 
@@ -48,5 +48,5 @@ extension AnyTransition {
             .animation(.easeInOut(duration: 0.6).delay(0.2)),//进场
         removal:
             .opacity.animation(
-            .easeInOut(duration: 0.9))) //离场
+            .easeInOut(duration: 0.3))) //离场
 }

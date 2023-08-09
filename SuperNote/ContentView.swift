@@ -18,6 +18,11 @@ struct ContentView: View {
             VStack(spacing: 10) {
                 Text("今天吃什么？")
                     .font(.largeTitle).bold().padding(.all, 6.0)
+                    .foregroundStyle(
+                        .linearGradient(colors: [.pink, .indigo],
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing)
+                    )
                 
                 // 顶部图片
                 foodImage
@@ -41,7 +46,8 @@ struct ContentView: View {
             .animation(.smallEase, value: isSelectedFood) //⚡️【食物出现的动画】这个动画要放在 VStack 身上，是因为要在 VStack 开始出现时就开始观察动画，动画的时间跟变化速率 、变化的对象（比如食物文字发生变化，就执行动画）, 表示给用到了 selectedFood 这个属性的元素增加动画
             .animation(.smallSpring, value: isShowInfo)//⚡️⚡️⚡️【Info 卡片下弹动画】表示给用到了 showInfo 这个属性的元素增加动画！ => smallSpring 表示后续我们自己抽象出来的属性
         }
-        .background(Color.bgBody) //背景底色
+        .background(.bgBody) //🚀🚀 在 Extensions 改成计算属性后, 就可以忽略 Color
+//        .background(Color.bgBody) //背景底色
     }
     
 }
@@ -55,10 +61,19 @@ private extension ContentView {
         //👇 如果有食物则显示【食物图】
         Group { //🚀给里边所有元素加上同样的属性
             if(isSelectedFood != .none) {
-                Text(isSelectedFood!.image) //显示 Foods内的 emoji
-                    .font(.system(size: 200))
-                    .minimumScaleFactor(0.5)//字体至少有 0.5 倍大
-                    .lineLimit(1) //👈限制只能显示一行
+//                GeometryReader { geometry in
+                    Circle().fill(.yellow).overlay { //Circle() 给背景加个 ⭕️
+                        Text(isSelectedFood!.image) //显示 Foods内的 emoji
+                            .font(.system(size: 160))
+                            .minimumScaleFactor(0.5)//字体至少有 0.5 倍大
+                            .lineLimit(1) //👈限制只能显示一行
+                    }
+                    .scaleEffect(x: 1.1, y: 1.1, anchor: .center).opacity(1) // 缩放圆形并将缩放中心定位到圆形的中心点
+                    .opacity((isSelectedFood != .none) ? 1 : 0)
+//                    .animation(.smallEase, value: isSelectedFood)
+                    .transition(.delayInsertionOpacity)
+                    .zIndex(-10)
+//                }.zIndex(-100)
             } else {
                 Image("hambuger") //默认显示的元素
                     .resizable() // 🚀（调整器的位置很重要！因为每一行都会返回自己的 View）
@@ -66,27 +81,28 @@ private extension ContentView {
             }
         }
         .frame(width: 240.0, height: 240.0) //高度跟 图片本身 一样大
+        .animation(.smallEase, value: isSelectedFood)
     }
     
     
     //  中间【食物名称】View
     var foodNameView: some View {
-        HStack {
-            Text(isSelectedFood!.name)//文字展示为 => selectedFood 食物名
-                .font(.system(size: 24))
-                .padding(.vertical, 10)
-                .bold()
-                .foregroundColor(customColor)
-                .id(isSelectedFood!.name) // 🔥设定了 id 后, Swift UI 就会明确转场的是不同的对象效果为淡入淡出
-                .transition(.delayInsertionOpacity)
-            // .transition(.scale.combined(with: .slide)) //组合动画
+            HStack {
+                Text(isSelectedFood!.name)//文字展示为 => selectedFood 食物名
+                    .font(.system(size: 24))
+                    .padding(.vertical, 10)
+                    .bold()
+                    .foregroundColor(customColor)
+                    .id(isSelectedFood!.name) // 🔥设定了 id 后, Swift UI 就会明确转场的是不同的对象效果为淡入淡出
+                    .transition(.delayInsertionOpacity)
+                // .transition(.scale.combined(with: .slide)) //组合动画
             
             Button {
                 isShowInfo.toggle() //🚀 toggle 为 boolean 封装好的切换方法
                 } label: {
                     Image(systemName: "info.circle.fill") //info icon
                         .foregroundColor(.secondary)
-                }
+            }
         }
     }
     
@@ -99,6 +115,9 @@ private extension ContentView {
                 Grid(horizontalSpacing: 12, verticalSpacing: 12) {
                     GridRow {
                         Text("蛋白质")
+//                            .fixedSize(horizontal: false, vertical: true) //表示强制让垂直方向获得最大空间
+//                            .multilineTextAlignment(.leading)//左对齐
+//                            .lineSpacing(20)
                         Text("脂肪")
                         Text("碳水")
                     }.frame(minWidth: 80)
@@ -190,7 +209,7 @@ private extension ContentView {
             isShowInfo = true //重置 info 卡片的状态
         } label: {
             Text("重置")
-                .padding(/*@START_MENU_TOKEN@*/.all, 8.0/*@END_MENU_TOKEN@*/)
+                .padding(.all, 8.0)
                 .foregroundColor(.white)
                 .frame(width: 200, height: 50, alignment: .center) // 用文字撑开按钮宽度
         }
