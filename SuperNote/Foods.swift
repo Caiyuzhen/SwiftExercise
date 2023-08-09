@@ -5,13 +5,32 @@
 //  Created by Jane Chao on 22/10/09.
 //
 
+@propertyWrapper struct Suffix: Equatable {
+    var wrappedValue: Double
+    private let suffix: String
+    
+    init(wrappedValue: Double, _ suffix: String) {
+        self.wrappedValue = wrappedValue
+        self.suffix = suffix
+    }
+    
+    var projectedValue: String {
+        wrappedValue.formatted() + " \(suffix)"
+    }
+}
+
 struct Foods: Equatable {
     var name: String
     var image: String
-    var calorie: Double
-    var carb: Double
-    var fat: Double
-    var protein: Double
+//    var calorie: Double
+//    var carb: Double
+//    var fat: Double
+//    var protein: Double
+    @Suffix("大卡") var calorie: Double = .zero
+    @Suffix("g") var carb: Double = .zero //计算属性, 处理后缀, 要配合上面的 @propertyWrapper struct Suffix: Equatable} 的定义！避免让 view 来做 formatted() 这件事
+    @Suffix("g") var fat: Double = .zero //计算属性, 要配合上面的 @propertyWrapper struct Suffix: Equatable} 的定义！避免让 view 来做 formatted() 这件事
+    @Suffix("g") var protein: Double = .zero //计算属性, 要配合上面的 @propertyWrapper struct Suffix: Equatable} 的定义！避免让 view 来做 formatted() 这件事
+    
     
     static let examples = [
         Foods(name: "漢堡", image: "🍔", calorie: 294, carb: 14, fat: 24, protein: 17),

@@ -109,9 +109,16 @@ private extension ContentView {
                     //                            .rotationEffect(.degrees(90))
                     
                     GridRow {
-                        Text(isSelectedFood!.protein.formatted() + "g")
-                        Text(isSelectedFood!.fat.formatted() + "g")
-                        Text(isSelectedFood!.carb.formatted() + "g")
+                        Text(isSelectedFood!.$protein)
+                        Text(isSelectedFood!.$fat)
+                        Text(isSelectedFood!.$carb)
+//                        buildInfoCardNumberText(isSelectedFood!.protein)
+//                        buildInfoCardNumberText(isSelectedFood!.fat)
+//                        buildInfoCardNumberText(isSelectedFood!.carb)
+                        
+//                        Text(isSelectedFood!.protein.formatted() + "g")
+//                        Text(isSelectedFood!.fat.formatted() + "g")
+//                        Text(isSelectedFood!.carb.formatted() + "g")
                     }
                 }
                 .padding()
@@ -152,6 +159,11 @@ private extension ContentView {
         .clipped()
         // .border(.red)
     }
+    
+//    // 创建 xxg xxg 的方法，避免重复写(但也不建议在 Vide 进行处理，应该在 Model 处理）
+//    func buildInfoCardNumberText(_ number: Double) -> some View {
+//        Text(number.formatted() + "g")
+//    }
     
     
     // 随机按钮
@@ -197,9 +209,10 @@ private extension ContentView {
             
              
             //👇【热量】
-            Text("热量 \(isSelectedFood!.calorie.formatted()) 大卡") //calorie 是 selectedFood 内的一个参数
-                .font(.subheadline).bold()
-                .padding(.bottom, 20)
+//            Text("热量 \(isSelectedFood!.calorie.formatted()) 大卡") //calorie 是 selectedFood 内的一个参数
+                Text("热量 \(isSelectedFood!.$calorie)") //🔥能使用 $ 是因为 Foods 定义了格式！
+                    .font(.subheadline).bold()
+                    .padding(.bottom, 20)
             
             
             // 👇【营养信息卡片】
