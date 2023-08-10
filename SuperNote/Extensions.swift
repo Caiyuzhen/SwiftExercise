@@ -35,6 +35,7 @@ extension Animation { //👈抽象出来的动画属性值
 extension ShapeStyle where Self == Color {
     static var bg: Color { Color(.systemBackground) } //⚡️⚡️⚡️var 是计算属性，let 是静态属性！！
     static var bgBody: Color { Color(.secondarySystemBackground) }
+    static var listBg: Color { Color(.systemGroupedBackground) } //食物清单 list 背景色
 }
 
 

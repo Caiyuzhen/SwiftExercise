@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		092A69742A85208B00E24B2A /* 列表循环遍历.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092A69732A85208B00E24B2A /* 列表循环遍历.swift */; };
+		092A69762A8536CE00E24B2A /* 属性包装器.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092A69752A8536CE00E24B2A /* 属性包装器.swift */; };
+		092A69782A85495700E24B2A /* FoodListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092A69772A85495700E24B2A /* FoodListView.swift */; };
+		092A697A2A8549DD00E24B2A /* View的基础结构.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092A69792A8549DD00E24B2A /* View的基础结构.swift */; };
 		09425B8C2A7D5BBD00F994B8 /* Foods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09425B8B2A7D5BBD00F994B8 /* Foods.swift */; };
 		096A5C992A78152300E4B9F3 /* SuperNoteApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 096A5C982A78152300E4B9F3 /* SuperNoteApp.swift */; };
 		096A5C9B2A78152300E4B9F3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 096A5C9A2A78152300E4B9F3 /* ContentView.swift */; };
@@ -16,6 +20,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		092A69732A85208B00E24B2A /* 列表循环遍历.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "列表循环遍历.swift"; sourceTree = "<group>"; };
+		092A69752A8536CE00E24B2A /* 属性包装器.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "属性包装器.swift"; sourceTree = "<group>"; };
+		092A69772A85495700E24B2A /* FoodListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodListView.swift; sourceTree = "<group>"; };
+		092A69792A8549DD00E24B2A /* View的基础结构.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View的基础结构.swift"; sourceTree = "<group>"; };
 		09425B8B2A7D5BBD00F994B8 /* Foods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Foods.swift; sourceTree = "<group>"; };
 		096A5C952A78152300E4B9F3 /* SuperNote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SuperNote.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		096A5C982A78152300E4B9F3 /* SuperNoteApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuperNoteApp.swift; sourceTree = "<group>"; };
@@ -57,7 +65,11 @@
 			isa = PBXGroup;
 			children = (
 				096A5C982A78152300E4B9F3 /* SuperNoteApp.swift */,
+				092A69732A85208B00E24B2A /* 列表循环遍历.swift */,
+				092A69752A8536CE00E24B2A /* 属性包装器.swift */,
 				AD60044F2A7FEC9D000A6FBF /* PreviewDevice.swift */,
+				092A69772A85495700E24B2A /* FoodListView.swift */,
+				092A69792A8549DD00E24B2A /* View的基础结构.swift */,
 				09A7991D2A82B48C00EB54BB /* Extensions.swift */,
 				096A5C9A2A78152300E4B9F3 /* ContentView.swift */,
 				09425B8B2A7D5BBD00F994B8 /* Foods.swift */,
@@ -145,10 +157,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				092A69742A85208B00E24B2A /* 列表循环遍历.swift in Sources */,
 				096A5C9B2A78152300E4B9F3 /* ContentView.swift in Sources */,
+				092A697A2A8549DD00E24B2A /* View的基础结构.swift in Sources */,
+				092A69782A85495700E24B2A /* FoodListView.swift in Sources */,
 				09425B8C2A7D5BBD00F994B8 /* Foods.swift in Sources */,
 				096A5C992A78152300E4B9F3 /* SuperNoteApp.swift in Sources */,
 				09A7991E2A82B48C00EB54BB /* Extensions.swift in Sources */,
+				092A69762A8536CE00E24B2A /* 属性包装器.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

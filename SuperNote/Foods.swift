@@ -4,6 +4,7 @@
 //
 //  Created by Jane Chao on 22/10/09.
 //
+import Foundation
 
 @propertyWrapper struct Suffix: Equatable {
     var wrappedValue: Double
@@ -19,7 +20,10 @@
     }
 }
 
-struct Foods: Equatable {
+
+
+struct Foods: Equatable, Identifiable { // Identifiable 用来定义 id
+    let id = UUID() //需要 import Foundation 才行
     var name: String
     var image: String
 //    var calorie: Double
