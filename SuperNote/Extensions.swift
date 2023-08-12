@@ -9,9 +9,10 @@ import SwiftUI
 
 
 extension View { //👈抽象出【主按钮】的样式
-    func mainBtnStyle() -> some View {
+    func mainBtnStyle(shape: ButtonBorderShape = .capsule) -> some View { // shape 是用来自定义按钮的圆角
         buttonStyle(.borderedProminent)
         .cornerRadius(12)
+        .buttonBorderShape(shape)
         .padding(.bottom, +4)
         //.background(customColor)
     }

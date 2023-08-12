@@ -62,13 +62,14 @@ private extension ContentView {
         Group { //🚀给里边所有元素加上同样的属性
             if(isSelectedFood != .none) {
 //                GeometryReader { geometry in
+
                     Circle().fill(.yellow).overlay { //Circle() 给背景加个 ⭕️
                         Text(isSelectedFood!.image) //显示 Foods内的 emoji
                             .font(.system(size: 160))
                             .minimumScaleFactor(0.5)//字体至少有 0.5 倍大
                             .lineLimit(1) //👈限制只能显示一行
                     }
-                    .scaleEffect(x: 1.1, y: 1.1, anchor: .center).opacity(1) // 缩放圆形并将缩放中心定位到圆形的中心点
+                    .scaleEffect(x: 1.1, y: 1.1, anchor: .center).opacity(1) // 【缩放】圆形并将缩放中心定位到圆形的中心点
                     .opacity((isSelectedFood != .none) ? 1 : 0)
 //                    .animation(.smallEase, value: isSelectedFood)
                     .transition(.delayInsertionOpacity)

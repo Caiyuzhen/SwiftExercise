@@ -17,6 +17,7 @@
 		096A5C9D2A78152400E4B9F3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 096A5C9C2A78152400E4B9F3 /* Assets.xcassets */; };
 		096A5CA02A78152400E4B9F3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 096A5C9F2A78152400E4B9F3 /* Preview Assets.xcassets */; };
 		09A7991E2A82B48C00EB54BB /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A7991D2A82B48C00EB54BB /* Extensions.swift */; };
+		AD7C16B52A87C3B6006318DF /* FoodForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD7C16B42A87C3B6006318DF /* FoodForm.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		096A5C9F2A78152400E4B9F3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		09A7991D2A82B48C00EB54BB /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		AD60044F2A7FEC9D000A6FBF /* PreviewDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewDevice.swift; sourceTree = "<group>"; };
+		AD7C16B42A87C3B6006318DF /* FoodForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodForm.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,8 +69,10 @@
 				096A5C982A78152300E4B9F3 /* SuperNoteApp.swift */,
 				092A69732A85208B00E24B2A /* 列表循环遍历.swift */,
 				092A69752A8536CE00E24B2A /* 属性包装器.swift */,
+				AD7C16B42A87C3B6006318DF /* FoodForm.swift */,
 				AD60044F2A7FEC9D000A6FBF /* PreviewDevice.swift */,
 				092A69772A85495700E24B2A /* FoodListView.swift */,
+				AD7C16B32A87C396006318DF /* New Group */,
 				092A69792A8549DD00E24B2A /* View的基础结构.swift */,
 				09A7991D2A82B48C00EB54BB /* Extensions.swift */,
 				096A5C9A2A78152300E4B9F3 /* ContentView.swift */,
@@ -85,6 +89,13 @@
 				096A5C9F2A78152400E4B9F3 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		AD7C16B32A87C396006318DF /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "New Group";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -162,6 +173,7 @@
 				092A697A2A8549DD00E24B2A /* View的基础结构.swift in Sources */,
 				092A69782A85495700E24B2A /* FoodListView.swift in Sources */,
 				09425B8C2A7D5BBD00F994B8 /* Foods.swift in Sources */,
+				AD7C16B52A87C3B6006318DF /* FoodForm.swift in Sources */,
 				096A5C992A78152300E4B9F3 /* SuperNoteApp.swift in Sources */,
 				09A7991E2A82B48C00EB54BB /* Extensions.swift in Sources */,
 				092A69762A8536CE00E24B2A /* 属性包装器.swift in Sources */,
