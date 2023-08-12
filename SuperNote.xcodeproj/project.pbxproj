@@ -72,7 +72,6 @@
 				AD7C16B42A87C3B6006318DF /* FoodForm.swift */,
 				AD60044F2A7FEC9D000A6FBF /* PreviewDevice.swift */,
 				092A69772A85495700E24B2A /* FoodListView.swift */,
-				AD7C16B32A87C396006318DF /* New Group */,
 				092A69792A8549DD00E24B2A /* View的基础结构.swift */,
 				09A7991D2A82B48C00EB54BB /* Extensions.swift */,
 				096A5C9A2A78152300E4B9F3 /* ContentView.swift */,
@@ -89,13 +88,6 @@
 				096A5C9F2A78152400E4B9F3 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		AD7C16B32A87C396006318DF /* New Group */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "New Group";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
