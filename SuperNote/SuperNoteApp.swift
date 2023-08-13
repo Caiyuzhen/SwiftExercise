@@ -13,9 +13,13 @@ struct SuperNoteApp: App {
     var body: some Scene {
         // 👇可以显示多个视窗(Scene)
         WindowGroup {
-            ContentView()
+            // 👇模拟器中要预览的视图
+            FoodListView()
+            // ContentView()
         }
         // 另外一个视窗(Scene) DocumentGroup
         // 另外一个视窗(Scene) Setting
     }
+    //add black background
 }
+

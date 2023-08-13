@@ -10,6 +10,7 @@ struct FoodListView: View {
     @State private var selectedFood = Set<Foods.ID>() // 选中的 list
     @State private var foodDetailHeight: CGFloat = FoodListDetailSheetHeightKey.defaultValue //读取下面所定义的预设值
     @State private var shouldShowSheet: Bool = false //是否显示底部 sheet
+    @State private var shouldShowFoodForm: Bool = false // 是否显示食物的新建菜单
     
     var body: some View {
         //主 UI
@@ -39,7 +40,10 @@ struct FoodListView: View {
         .background(.listBg)
         //【🔥右下角 add 按钮的安全区】往下滚动时，会把 Add 按钮放在安全区域内，避免无法拖拽
         .safeAreaInset(edge: .bottom, content: buildFloatBtn)  //🚀根据是否是编辑状态显示不同的按钮 => alignment: isEditing ? .center : .trailing
-        .sheet(isPresented: $shouldShowSheet) { // isPressented: .constant(true) 表示固定强制显示
+        .sheet(isPresented: $shouldShowFoodForm) {  // Show sheet According to【shouldShowFoodForm】
+            FoodForm(food: Foods(name: "", image: ""))
+        }
+        .sheet(isPresented: $shouldShowSheet) { // 【根据 $shouldShowSheet 显示底部菜单】isPressented: .constant(true) 表示固定强制显示
             let food = food.first!
             let useHStackLayout = lsyoutStyle.isAccessibilitySize || food.image.count > 1//判断是否是辅助模式, 或者食物图的数量是否 > 1
             let layout = useHStackLayout ? AnyLayout(HStackLayout(spacing: 30)) : AnyLayout(VStackLayout(spacing: 30))
@@ -154,7 +158,11 @@ private extension FoodListView {
     // add 按钮
     var addBtn: some View {
         // .overlay(alignment: .bottomTrailing) { //🚀右下角增加悬浮按钮
-        Button {} label: {
+        Button {
+            // Add 按钮的事件
+            // change shouldShowFoodForm to true
+            shouldShowFoodForm = true
+        } label: {
             Image(systemName: "plus.circle.fill")
                 .font(.system(size: 50))
                 .padding()
