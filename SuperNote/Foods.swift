@@ -24,6 +24,7 @@ import Foundation
 
 struct Foods: Equatable, Identifiable { // Identifiable 用来定义 id
     let id = UUID() //需要 import Foundation 才行
+
     var name: String
     var image: String
 //    var calorie: Double
@@ -47,4 +48,7 @@ struct Foods: Equatable, Identifiable { // Identifiable 用来定义 id
         Foods(name: "牛肉麵", image: "🐄🍜", calorie: 219, carb: 33, fat: 5, protein: 9),
         Foods(name: "關東煮", image: "🥘", calorie: 80, carb: 4, fat: 4, protein: 6),
     ]
+
+    //👇新建 sheet 表单时, 需要让 Food 是一个计算属性, 这样每次新增进来的食物才是一个新的 id
+    static var new: Foods { Foods(name: "", image: "") }
 }
